@@ -8,7 +8,7 @@
     <title>Very Cool Website</title>
 </head>
 <body>
-    <h1>Hello {{name}}</h1>
+    <h1>Hello</h1>
     <div class="nav-bar">
         <p class="logo">Very Cool Website</p>
         <p class="login">Log in</p>
@@ -19,7 +19,19 @@
     </div>
     <div>
         <form action="/handle_data" method="post">
-            <input type="text" name="post">
+            <label for="title">Title</label>
+            <br>
+            <input type="text" name ="title" 
+            placeholder="Post title" value="{{request.form['title'] }}"> </input>
+
+            <label for="content">Post Content</label>
+            <br> 
+            <textarea   name="content" 
+                        placeholder="Post content"        
+                        cols="30" rows="10">
+                    {{ request.form['content']}}</textarea>
+            <br>
+            <button type = "submit">Submit</button>
         </form>
     </div>
     <div class="items">
@@ -43,10 +55,11 @@
             <h1>Movies</h1>
             <p>blog post</p>
         </div>
-        {% for p in post %}
+        {% for post in posts %}
         <div>
-            <h1>New Post</h1>
-            <p>{{ p }}</p>
+            <p>{{ post['created'] }}</p>
+            <h1>{{ post['title'] }}</h1>
+            <p>{{ post['content'] }}</p>
         </div>
         {% endfor %}
     </div>

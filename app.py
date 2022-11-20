@@ -1,15 +1,35 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import *
+import sqlite3
 
 app = Flask(__name__)
 
-post = []
-name = "Dat"
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 @app.route("/")
 def index():
-    return render_template("/index.html", name = name, post=post)
+    conn = get_db_connection()
+    posts = conn.execute('SELECT * FROM posts').fetchall()
+    conn.close()
+    return render_template("/index.html", posts=posts)
 
-@app.post("/handle_data")
+@app.route("/handle_data", methods = ('GET', 'POST'))
 def handle_data():
-    post.append(request.form["post"])
-    return render_template("/index.html", name = name, post=post)
+    if request.method == "POST":
+        title = request.form['title']
+        content = request.form['content']
+
+        if not title:
+            flash("Title is required!")
+        elif not content:
+            flash("Content is required!")
+        else:
+            conn = get_db_connection()
+            conn.execute('INSERT INTO posts (title, content) VALUES (?,?)',
+                        (title, content))
+            posts = conn.execute('SELECT * FROM posts').fetchall()
+            conn.commit()
+            conn.close()
+            return render_template("/index.html", posts=posts)
