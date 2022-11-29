@@ -29,6 +29,7 @@ def handle_data():
             conn = get_db_connection()
             conn.execute('INSERT INTO posts (title, content) VALUES (?,?)',
                         (title, content))
+            # conn.execute('DELETE FROM posts') 
             posts = conn.execute('SELECT * FROM posts').fetchall()
             conn.commit()
             conn.close()

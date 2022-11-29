@@ -22,39 +22,18 @@
             <label for="title">Title</label>
             <br>
             <input type="text" name ="title" 
-            placeholder="Post title" value="{{request.form['title'] }}"> </input>
+            placeholder="Post title" value="{{request.form['title'] }}" required> </input>
 
             <label for="content">Post Content</label>
             <br> 
-            <textarea   name="content" 
-                        placeholder="Post content"        
-                        cols="30" rows="10">
-                    {{ request.form['content']}}</textarea>
+            <textarea name="content" placeholder="Post content" 
+                    cols="30" rows="10" required
+                    value = "{{ request.form['content']}}"></textarea>
             <br>
             <button type = "submit">Submit</button>
         </form>
     </div>
     <div class="items">
-        <div>
-            <h1>Car</h1>
-            <p>blog post</p>
-        </div>
-        <div>
-            <h1>Writing</h1>
-            <p>blog post</p>
-        </div>
-        <div>
-            <h1>Games</h1>
-            <p>blog post</p>
-        </div>
-        <div>
-            <h1>Sports</h1>
-            <p>blog post</p>
-        </div>
-        <div>
-            <h1>Movies</h1>
-            <p>blog post</p>
-        </div>
         {% for post in posts %}
         <div>
             <p>{{ post['created'] }}</p>
