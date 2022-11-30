@@ -3,11 +3,13 @@ import sqlite3
 
 app = Flask(__name__)
 
+#function/shortcut to connect to the database
 def get_db_connection():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
     return conn
 
+#the home page basically
 @app.route("/")
 def index():
     conn = get_db_connection()
@@ -15,6 +17,7 @@ def index():
     conn.close()
     return render_template("/index.html", posts=posts)
 
+#this run when a new post is created
 @app.route("/handle_data", methods = ('GET', 'POST'))
 def handle_data():
     if request.method == "POST":
@@ -29,8 +32,44 @@ def handle_data():
             conn = get_db_connection()
             conn.execute('INSERT INTO posts (title, content) VALUES (?,?)',
                         (title, content))
+                        
             # conn.execute('DELETE FROM posts') 
+            #use line above to delete data for now
+
             posts = conn.execute('SELECT * FROM posts').fetchall()
             conn.commit()
             conn.close()
             return render_template("/index.html", posts=posts)
+
+#this function runs when edit button is pressed
+@app.route("/edit/<int:id>", methods = ('GET', 'POST'))
+def edit(id):
+    return render_template("/edit.html" ,id=id)
+
+#this function is to process the data put in to edit a post
+@app.route("/handle_data_edit/<int:id>/", methods = ('GET','POST'))
+def handle_data_edit(id: int):
+    if request.method == "POST":
+        title = request.form['title']
+        content = request.form['content']
+
+        if not title:
+            flash("Title is required!")
+        elif not content:
+            flash("Content is required!")
+        else:
+            conn = get_db_connection()
+            sql = ''' UPDATE posts
+              SET title = ? ,
+                  content = ? 
+              WHERE id = ?'''   
+            cur = conn.cursor()
+            data = [
+                (title),
+                (content),
+                (id)
+            ]
+            cur.execute(sql, data)
+            conn.commit()
+
+            return redirect(url_for('index'))
