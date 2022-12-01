@@ -73,3 +73,14 @@ def handle_data_edit(id: int):
             conn.commit()
 
             return redirect(url_for('index'))
+
+@app.route("/delete/<int:id>/")
+def delete(id: int):
+    conn = get_db_connection()
+    sql = ''' DELETE from posts WHERE id = ?'''   
+    cur = conn.cursor()
+    new_id = id
+    cur.execute(sql, (new_id,))
+    conn.commit()
+
+    return redirect(url_for('index'))
