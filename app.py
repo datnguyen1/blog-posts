@@ -32,9 +32,6 @@ def handle_data():
             conn = get_db_connection()
             conn.execute('INSERT INTO posts (title, content) VALUES (?,?)',
                         (title, content))
-                        
-            # conn.execute('DELETE FROM posts') 
-            #use line above to delete data for now
 
             posts = conn.execute('SELECT * FROM posts').fetchall()
             conn.commit()
@@ -44,7 +41,13 @@ def handle_data():
 #this function runs when edit button is pressed
 @app.route("/edit/<int:id>", methods = ('GET', 'POST'))
 def edit(id):
-    return render_template("/edit.html" ,id=id)
+    db = sqlite3.connect('database.db')
+    cursor = db.execute('SELECT * FROM posts WHERE id = ?', (id,))
+    row = cursor.fetchone()
+    title = row[2]
+    content = row[3]
+    db.close()
+    return render_template("/edit.html" , title=title, content=content, id=id)
 
 #this function is to process the data put in to edit a post
 @app.route("/handle_data_edit/<int:id>/", methods = ('GET','POST'))

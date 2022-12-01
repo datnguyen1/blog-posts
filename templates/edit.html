@@ -7,17 +7,17 @@
 
 </head>
 <body>
+
     <form action="{{ url_for('handle_data_edit', id = id) }}" method="post">
         <label for="title">Title</label>
         <br>
         <input type="text" name ="title" 
-        placeholder="Post title" value="{{request.form['title'] }}" required> </input>
+        value="{{ title }}" required></input>
 
-        <label for="content">Post Content</label>
+        <label for="content">Content</label>
         <br> 
-        <textarea name="content" placeholder="Post content" 
-                cols="30" rows="10" required
-                value = "{{ request.form['content']}}"></textarea>
+        <textarea name="content"  
+                cols="30" rows="10" required>{{ content }}</textarea>
         <br>
         <button type = "submit">Submit</button>
     </form>
