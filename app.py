@@ -87,3 +87,4 @@ def delete(id: int):
     conn.commit()
 
     return redirect(url_for('index'))
+
