@@ -5,14 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="/static/script.js"></script>
     <title>Very Cool Website</title>
 </head>
 <body>
     <h1>Hello</h1>
 
-    <div class = "options">
-        <p>Options</p>
-    </div>
+    <!-- This is the modal window -->
+    <div id="modal-window" style="display:none">
+        <div class="modal-content">
+            <span class="close-button" onclick="unshowModalWindow()">&times;</span>
+            <h2 id = "modal-title">1</h2>
+            <p id = "modal-content">2</p>
+        </div>
+        </div>
+
     <div>
         <form action="/handle_data" method="post">
             <label for="title">Title:</label><br>
@@ -28,7 +35,8 @@
     </div>
     <div class="items">
         {% for post in posts %}
-        <div>
+
+        <div class = "div-item" onclick="showModalWindow('{{ post.title }}')"  data-title="{{ post['title'] }}" data-content="{{ post['content'] }}">
             <p>{{ post['created'] }}</p>
             <h2>{{ post['title'] }}</h2>
             <p>{{ post['content'] }}</p>
@@ -37,5 +45,7 @@
         </div>
         {% endfor %}
     </div>
+
+    
 </body>
 </html>

@@ -44,7 +44,7 @@ box-sizing: border-box;
     display: inline;
 }
 
-.items div {
+.items .div-item {
     border: solid 1px orange;
     border-radius: 2px;
     display: inline-block;
@@ -55,7 +55,7 @@ box-sizing: border-box;
 
 }
 
-.items div:hover {
+.items .div-item:hover {
     border: solid 1px orange;
     border-radius: 2px;
     display: inline-block;
@@ -66,12 +66,41 @@ box-sizing: border-box;
     background-color: rgba(38, 38, 38, 0.3);
 }
 
-.options {
-    display: flex;
-    justify-content: right;
+
+/* Style the modal window */
+#modal-window {
+display: none; /* Hide the modal by default */
+position: fixed; /* Position the modal in the center of the page */
+z-index: 1; /* Sit on top of other elements on the page */
+left: 0;
+top: 0;
+width: 100%; /* Full width */
+height: 100%; /* Full height */
+overflow: auto; /* Enable scroll if needed */
+background-color: rgb(0,0,0); /* Fallback color */
+background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-.options p {
-    border: solid 1px rgb(129, 85, 85);
-    border-radius: 5px;
+/* Style the modal content */
+.modal-content {
+background-color: #fefefe;
+margin: 15% auto; /* 15% from the top and centered */
+padding: 20px;
+border: 1px solid #888;
+width: 80%; /* Set the width to 80% */
+}
+
+/* Style the close button */
+.close-button {
+color: #aaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+color: black;
+text-decoration: none;
+cursor: pointer;
 }
